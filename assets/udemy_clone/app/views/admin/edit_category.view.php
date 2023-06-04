@@ -1,0 +1,56 @@
+<?php $this->view('admin/includes/admin-header',$data) ?>
+
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Edit category</h5>
+
+      <?php if(!empty($row)):?>
+
+        <?php if(user_can('edit_categories')):?>
+
+            <!-- No Labels Form -->
+            <form method="post" class="row g-3">
+              
+              <div class="col-md-12">
+                <input value="<?=set_value('category',$row->category)?>" name="category" type="text" class="form-control <?=!empty($errors['category']) ? 'border-danger':'';?>" placeholder="Category name">
+
+                <?php if(!empty($errors['category'])):?>
+                  <small class="text-danger"><?=$errors['category']?></small>
+                <?php endif;?>
+
+              </div>
+       
+              <div class="col-md-12">
+                <label>Active:</label>
+                <select name="disabled" class="form-select">
+                  
+                  <option <?=set_select('disabled','0',$row->disabled)?> value="0" selected="">Yes</option>
+                  <option <?=set_select('disabled','1',$row->disabled)?> value="1">No</option>
+
+                </select>
+
+              </div>
+          
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save</button>
+
+                <a href="<?=ROOT?>/admin/categories">
+                  <button type="button" class="btn btn-secondary">Cancel</button>
+                </a>
+              </div>
+            </form><!-- End No Labels Form -->
+
+        <?php else:?>
+          <div class="alert alert-danger text-center">You dont have permission to perform this action!</div>
+            <a href="<?=ROOT?>/admin/categories">
+              <button type="button" class="btn btn-secondary">Back</button>
+            </a>
+        <?php endif;?>
+
+      <?php else:?>
+        <div>That course was not found!</div>
+      <?php endif;?>
+
+    </div>
+  </div>
+  <?php $this->view('admin/includes/admin-footer',$data) ?>
